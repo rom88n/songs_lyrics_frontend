@@ -1,0 +1,9 @@
+body {
+    font-size: 1.2rem;
+    color: #45484c;
+    overflow-Y: scroll;
+    overflow-X: hidden;
+    font-weight: 400;
+    line-height: 1.7rem;
+    margin: 0;
+}

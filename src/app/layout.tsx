@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import { roboto } from '@/config/theme/fonts';
+import ThemeRegistry from '@/components/layouts/ThemeRegistry';
+import TopNavigation from '@/components/common/TopNavigation';
+import { ReactNode } from 'react';
+import Container from '@mui/material/Container';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Footer from '@/components/common/Footer';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -12,11 +16,38 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <Box
+        component="body"
+        className={roboto.className}
+        sx={{
+          fontSize: '1.2rem',
+          lineHeight: '1.7rem',
+          overflowY: 'scroll',
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
+        }}
+      >
+        <ThemeRegistry>
+          <TopNavigation/>
+          <Container
+            component="main"
+            maxWidth="lg"
+            sx={{
+              marginTop: '8rem',
+              marginBottom: '2rem',
+              flex: 1,
+            }}
+          >
+            {children}
+          </Container>
+          <Footer/>
+        </ThemeRegistry>
+      </Box>
     </html>
   );
 }
