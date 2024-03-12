@@ -24,6 +24,6 @@ jobs:
         CI_TOKEN: ${{ github.token }}
         PARENT_REPO: rom88n/songs_lyrics_ci
         PARENT_BRANCH: main
-        WORKFLOW_ID: 19373085
+        WORKFLOW_ID: 8255408059
       run: |
         curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.CI_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
