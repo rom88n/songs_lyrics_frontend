@@ -40,7 +40,7 @@ jobs:
           while [[ $workflow_run_id == null && $attempt_counter -lt $MAX_ATTEMPTS ]]; do
             echo "Checking for triggered workflow..."
             workflow_run_id=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-              "$API_URL/repos/$REPO/actions/runs" | jq -r '.workflow_runs[] | select(.event=="workflow_dispatch" and .name=="Update Submodules").id')
+              "$API_URL/repos/$REPO/actions/runs" | jq -r '.workflow_runs[] | select(.event=="workflow_dispatch" and .name=="update_submodules").id')
             
             if [[ $workflow_run_id == null ]]; then
               echo "Workflow not started yet. Waiting..."
