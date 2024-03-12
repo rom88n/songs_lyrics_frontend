@@ -9,7 +9,7 @@ jobs:
   trigger_update:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Backend Update in production
+      - name: Trigger Frontend Update in production
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.PARENT_REPO_TOKEN }}
