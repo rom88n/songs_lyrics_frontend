@@ -15,3 +15,4 @@ jobs:
           token: ${{ secrets.PARENT_REPO_TOKEN }}
           repository: rom88n/songs_lyrics_ci
           event-type: submodule-update
+          client-payload: '{"service": "frontend"}'
