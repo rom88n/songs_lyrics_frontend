@@ -33,33 +33,37 @@ jobs:
           attempt_counter=0
           workflow_run_id=null
           conclusion="null"
-
+  
           echo "Starting to check the workflow status..."
-
+  
           # Wait for the workflow to be triggered and get its ID
           while [[ $workflow_run_id == null && $attempt_counter -lt $MAX_ATTEMPTS ]]; do
             echo "Checking for triggered workflow..."
-            workflow_run_id=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-              "$API_URL/repos/$REPO/actions/runs" | jq -r '.workflow_runs[] | select(.event=="workflow_dispatch" and .name=="Update Submodules").id')
-            
+            workflow_response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$API_URL/repos/$REPO/actions/runs")
+            echo "API Response for workflow runs: $workflow_response"
+            workflow_run_id=$(echo $workflow_response | jq -r '.workflow_runs[] | select(.event=="repository_dispatch" and .name=="Update Submodules").id')
+    
             if [[ $workflow_run_id == null ]]; then
               echo "Workflow not started yet. Waiting..."
               ((attempt_counter++))
               sleep $SLEEP_DURATION
             fi
           done
-
+  
           if [[ $workflow_run_id == null ]]; then
             echo "Workflow did not start within the expected time."
             exit 1
+          else
+            echo "Workflow started. ID: $workflow_run_id"
           fi
-
+  
           # Now wait for the workflow to complete
           while [[ $conclusion == "null" && $attempt_counter -lt $MAX_ATTEMPTS ]]; do
             echo "Checking the status of workflow run ID: $workflow_run_id..."
-            conclusion=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-              "$API_URL/repos/$REPO/actions/runs/$workflow_run_id" | jq -r '.conclusion')
-            
+            run_status=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$API_URL/repos/$REPO/actions/runs/$workflow_run_id")
+            echo "API Response for workflow run status: $run_status"
+            conclusion=$(echo $run_status | jq -r '.conclusion')
+    
             if [[ $conclusion == "null" ]]; then
               echo "Workflow is still running. Waiting..."
               ((attempt_counter++))
@@ -68,7 +72,7 @@ jobs:
               echo "Workflow completed with status: $conclusion"
             fi
           done
-
+  
           if [[ $conclusion != "success" ]]; then
             echo "Workflow did not complete successfully."
             exit 1
