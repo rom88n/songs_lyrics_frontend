@@ -1,4 +1,4 @@
-name: Trigger Parent Update and Wait for Result
+name: Trigger Parent Update
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  trigger_and_wait:
+  trigger_update:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger workflow in parent repository
@@ -15,69 +15,3 @@ jobs:
           token: ${{ secrets.PARENT_REPO_TOKEN }}
           repository: rom88n/songs_lyrics_ci
           event-type: submodule-update
-      
-      - name: Install jq for JSON parsing
-        run: sudo apt-get install jq
-
-      - name: Wait for the workflow to complete
-        env:
-          API_URL: https://api.github.com
-          REPO: rom88n/songs_lyrics_ci
-          EVENT_TYPE: submodule-update
-          GITHUB_TOKEN: ${{ secrets.PARENT_REPO_TOKEN }}
-        run: |
-          # Define the maximum number of attempts (to avoid infinite loops)
-          MAX_ATTEMPTS=60
-          SLEEP_DURATION=30
-          
-          attempt_counter=0
-          workflow_run_id=null
-          conclusion="null"
-  
-          echo "Starting to check the workflow status..."
-  
-          # Wait for the workflow to be triggered and get its ID
-          while [[ $workflow_run_id == null && $attempt_counter -lt $MAX_ATTEMPTS ]]; do
-            echo "Checking for triggered workflow..."
-            workflow_response=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$API_URL/repos/$REPO/actions/runs")
-            echo "API Response for workflow runs: $workflow_response"
-            workflow_run_id=$(echo $workflow_response | jq -r '.workflow_runs[] | select(.event=="repository_dispatch" and .name=="Update Submodules").id')
-    
-            if [[ $workflow_run_id == null ]]; then
-              echo "Workflow not started yet. Waiting..."
-              ((attempt_counter++))
-              sleep $SLEEP_DURATION
-            else
-              echo "Workflow started. ID: $workflow_run_id"
-            fi
-          done
-  
-          if [[ $workflow_run_id == null ]]; then
-            echo "Workflow did not start within the expected time."
-            exit 1
-          fi
-  
-          # Now wait for the workflow to complete
-          while [[ $conclusion == "null" && $attempt_counter -lt $MAX_ATTEMPTS ]]; do
-            echo "Checking the status of workflow run ID: $workflow_run_id..."
-            run_status=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$API_URL/repos/$REPO/actions/runs/$workflow_run_id")
-            echo "API Response for workflow run status: $run_status"
-            conclusion=$(echo $run_status | jq -r '.conclusion')
-    
-            if [[ $conclusion == "null" ]]; then
-              echo "Workflow is still running. Waiting..."
-              ((attempt_counter++))
-              sleep $SLEEP_DURATION
-            else
-              echo "Workflow completed with status: $conclusion"
-              break # Exit the loop since the workflow has completed
-            fi
-          done
-  
-          if [[ $conclusion != "success" ]]; then
-            echo "Workflow did not complete successfully."
-            exit 1
-          else
-            echo "Workflow completed successfully."
-            exit 0
-          fi
