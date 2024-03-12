@@ -1,20 +1,20 @@
 'use client';
-import React, { memo } from 'react';
+import React, { memo, ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import { Grid, Paper } from '@mui/material';
 import Image from 'next/image';
 import Typography from '@mui/material/Typography';
 import { tss } from 'tss-react';
-import BreadCrumbs from '@/components/common/BreadCrumbs';
+import BreadCrumbs from '../../components/extra/BreadCrumbs';
 import AdditionalInfo from '@/components/extra/AdditionalInfo';
 import AlbumsExplore from '@/containers/AlbumPage/AlbumsExplore';
-import SocialSharing from '@/components/common/SocialSharing';
+import SocialSharing from '../../components/extra/SocialSharing';
 
 function createData(
   name: string,
-  calories: string | JSX.Element,
+  calories: string | ReactNode,
   fat: string,
-  carbs: string | JSX.Element,
+  carbs: string | ReactNode,
 ) {
   return { name, calories, fat, carbs };
 }
@@ -27,7 +27,7 @@ const AlbumPage = memo(() => {
     createData('Album description', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique turpis facilisis purus sodales tempus. Curabitur gravida sed nibh sit amet varius. Proin id justo vitae nulla finibus consectetur et id lectus. Suspendisse potenti. Cras condimentum, ex vel auctor ultricies, erat erat tincidunt nisi, eu laoreet lectus leo vel turpis. Donec quis urna hendrerit, semper erat at, mollis tellus. Duis finibus enim sed risus condimentum, quis semper sem vulputate.', 'Album YT view count', '2 442 252'),
     createData('Album duration', '243', 'Songs at Album', '5'),
     createData('Album Publication Date', '2020', '', ''),
-    ];
+  ];
 
   return (
     <>
@@ -119,7 +119,7 @@ const AlbumPage = memo(() => {
   );
 });
 
-AlbumPage.displayName = 'AlbumPage'
+AlbumPage.displayName = 'AlbumPage';
 
 const useStyles = tss.create({
   image: {

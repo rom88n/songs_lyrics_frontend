@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import SearchIcon from '@mui/icons-material/Search';
-import SearchModal from '../SearchModal';
+import SearchModal from '../../extra/SearchModal';
 import { memo } from 'react';
 import { Button } from '@mui/material';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import ExploreArtists from '@/containers/AlbumPage/AlbumsExplore/ExploreArtists';
-import Index from '@/containers/AlbumPage/AlbumsExplore/ExploreSongs';
-import { Divider, Paper } from '@mui/material';
+import ExploreSongs from '@/containers/AlbumPage/AlbumsExplore/ExploreSongs';
+import { Paper } from '@mui/material';
 
 const AlbumsExplore = () => {
   return (
@@ -9,7 +9,7 @@ const AlbumsExplore = () => {
       variant="outlined"
       sx={{ p: '.5rem', borderRadius: '1.5rem' }}
     >
-      <Index/>
+      <ExploreSongs/>
       <ExploreArtists/>
     </Paper>
   );

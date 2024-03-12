@@ -1,11 +1,9 @@
 'use client';
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import { tss } from 'tss-react';
 import Box from '@mui/material/Box';
 import SongsItem from '@/components/extra/SongsItem';
 import { songsColors } from '@/config/theme/songs.colors';
-
-const colors = songsColors()
 
 const SongsList = memo(() => {
   const { classes } = useStyles();
@@ -13,7 +11,7 @@ const SongsList = memo(() => {
   return (
     <Box className={classes.root}>
       {new Array(10).fill(0).map((_, index) => (
-        <SongsItem withAdditionalInfo key={index} color={colors[index]}/>
+        <SongsItem withAdditionalInfo key={index} color={songsColors[index]}/>
       ))}
     </Box>
   );

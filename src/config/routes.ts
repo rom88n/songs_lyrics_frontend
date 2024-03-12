@@ -1,6 +1,7 @@
 export const ROUTES = {
   songs: '/songs',
-  artists: '/artists'
+  artists: '/artists',
+  albums: '/albums'
 }
 
 export default ROUTES;

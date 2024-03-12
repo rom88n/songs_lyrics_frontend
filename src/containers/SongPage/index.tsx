@@ -1,22 +1,22 @@
 'use client';
-import React, { memo } from 'react';
+import React, { memo, ReactNode } from 'react';
 import { tss } from 'tss-react';
 import { Grid, Link, Paper } from '@mui/material';
 import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import MusicPlayer from '@/components/common/MusicPlayer';
-import BreadCrumbs from '@/components/common/BreadCrumbs';
+import MusicPlayer from '../../components/extra/MusicPlayer';
+import BreadCrumbs from '../../components/extra/BreadCrumbs';
 import AdditionalInfo from '../../components/extra/AdditionalInfo';
 import SongExplore from '@/containers/SongPage/SongExplore';
-import SocialSharing from '@/components/common/SocialSharing';
+import SocialSharing from '../../components/extra/SocialSharing';
 import Chip from '@mui/material/Chip';
 
 function createData(
   name: string,
-  calories: string | JSX.Element,
+  calories: string | ReactNode,
   fat: string,
-  carbs: string | JSX.Element,
+  carbs: string | ReactNode,
 ) {
   return { name, calories, fat, carbs };
 }

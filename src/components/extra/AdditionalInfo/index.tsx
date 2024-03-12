@@ -1,15 +1,13 @@
-import React, { Component, ElementType, FC, memo } from 'react';
+import React, { FC, memo, ReactNode } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import MuiTableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/system';
-import { Link } from '@mui/material';
-import Chip from '@mui/material/Chip';
 
 type TAdditionalInfoProps = {
-  rows: any
+  rows: { name: string; calories: ReactNode; fat: string; carbs: ReactNode; }[]
 }
 
 const TableCell = styled(MuiTableCell)({
@@ -23,7 +21,7 @@ const AdditionalInfo: FC<TAdditionalInfoProps> = memo(({ rows }) => {
     <TableContainer>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableBody>
-          {rows.map((row: any) => (
+          {rows.map((row) => (
             <TableRow
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

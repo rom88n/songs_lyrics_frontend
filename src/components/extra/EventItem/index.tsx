@@ -59,7 +59,7 @@ const EventItem: FC<TEventItemProps> = memo(({ color }) => {
           <b>Ashanti with Monica</b>
         </Typography>
         <Typography component="div">
-          <span>Sat, 6:30 – 8:30 PM</span>, <b>Chicago, IL, USA</b>
+          <span>Sat, 6:30 – 8:30 PM</span>, <b>Chicago, IL, USA</b>
         </Typography>
       </Box>
     </Paper>

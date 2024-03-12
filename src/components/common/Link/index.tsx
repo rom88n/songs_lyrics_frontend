@@ -1,16 +1,24 @@
 import NextLink, { LinkProps as NextLinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
-import Typography from '@mui/material/Typography';
-import { ForwardedRef, forwardRef } from 'react';
+import { ForwardedRef, forwardRef, useContext, useMemo } from 'react';
+import { LangContext } from '@/components/layouts/LangProvider';
 
 const Link = forwardRef((props: NextLinkProps, ref: ForwardedRef<never>) => {
-  const pathname = usePathname()
+  const { lang } = useContext(LangContext);
+  const pathname = usePathname();
 
-  if (pathname === props.href) return (<span {...props} ref={ref}/>)
+  const href = useMemo(() => {
+    if (String(props.href).includes('http')) {
+      return props.href;
+    }
+    return `/${lang}${props.href}`;
+  }, [lang, props.href]);
+
+  if (pathname === props.href) return (<span {...props} ref={ref}/>);
 
   return (
-    <NextLink passHref ref={ref} {...props} />
-  )
+    <NextLink passHref ref={ref} {...props} href={href}/>
+  );
 });
 
 Link.displayName = 'Link';
