@@ -1,4 +1,4 @@
-name: Trigger Parent Update
+name: Trigger Prod Update
 
 on:
   push:
