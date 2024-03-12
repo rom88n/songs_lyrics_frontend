@@ -44,6 +44,7 @@ build
 .node_repl_history
 
 #misc
+.DS_Store
 **/.DS_Store
 .vscode
 .env
