@@ -1,16 +1,16 @@
-import React, { useMemo } from 'react';
+import React, { memo } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import SongsItem from '@/components/extra/SongsItem';
 import { songsColors } from '@/config/theme/songs.colors';
 import Chip from '@mui/material/Chip';
 import { Link } from '@mui/material';
+import ArtistItem from '@/components/extra/ArtistItem';
 
-const ExploreArtists = () => {
+const ExploreArtists = memo(() => {
   return (
     <Box>
       <Typography component="h2" fontSize="1.5rem" fontWeight="400" sx={{ margin: '1.5rem 1rem 1rem' }}>
-        Explore Album's artists
+        Album's artists
       </Typography>
       <Box
         sx={{
@@ -21,7 +21,7 @@ const ExploreArtists = () => {
         }}
       >
         {new Array(5).fill(0).map((_, index) => (
-          <SongsItem withAdditionalInfo key={index} color={songsColors[index]}/>
+          <ArtistItem withAdditionalInfo key={index} color={songsColors[index]}/>
         ))}
         <Chip
           label="Explore all songs by the artist"
@@ -40,6 +40,8 @@ const ExploreArtists = () => {
       </Box>
     </Box>
   );
-};
+});
+
+ExploreArtists.displayName = 'ExploreArtists';
 
 export default ExploreArtists;

@@ -6,4 +6,4 @@ const dictionaries: Record<TLocale, () => Promise<Record<string, string>>> = {
   fr: () => import('@/dictionaries/fr.json').then((module) => module.default),
 }
 
-export const getDictionary = async (locale: TLocale): Promise<Record<string, string>> => dictionaries[locale]()
+export const getDictionary = async (locale: TLocale): Promise<Record<string, string>> => dictionaries[locale] ? dictionaries[locale]() : {}

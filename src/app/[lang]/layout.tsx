@@ -8,12 +8,16 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Footer from '@/components/common/Footer';
 import LangProvider from '@/components/layouts/LangProvider';
-import { TLocale } from '@/middleware';
+import { locales, TLocale } from '@/middleware';
 import { getDictionary } from '@/app/[lang]/dictionaries';
 
 type TRootLayout = {
   children: ReactNode;
   params: { lang: TLocale }
+}
+
+export async function generateStaticParams() {
+  return locales.map(lang => { lang })
 }
 
 export const metadata: Metadata = {

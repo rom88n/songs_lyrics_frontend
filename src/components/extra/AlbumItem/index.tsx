@@ -1,19 +1,19 @@
 import React, { FC, memo } from 'react';
 import { Box, Link, Paper } from '@mui/material';
-import AudiotrackIcon from '@mui/icons-material/Audiotrack';
+import DvrIcon from '@mui/icons-material/Dvr';
 
 type TSongsItemProps = {
   color: string
   withAdditionalInfo?: boolean
 }
 
-const SongsItem: FC<TSongsItemProps> = memo(({ color, withAdditionalInfo = false }) => {
+const AlbumItem: FC<TSongsItemProps> = memo(({ color, withAdditionalInfo = false }) => {
 
   return (
     <Paper
       variant="outlined"
       component={Link}
-      href="/songs/1"
+      href="/albums/1"
       sx={{
         borderRadius: '.5rem',
         padding: '.5rem',
@@ -41,11 +41,7 @@ const SongsItem: FC<TSongsItemProps> = memo(({ color, withAdditionalInfo = false
             color: '#fff'
           }}
         >
-          <AudiotrackIcon
-            sx={{
-              fontSize: '1.5rem',
-            }}
-          />
+          <DvrIcon sx={{ fontSize: '1.5rem' }} />
         </Box>
 
         <Box
@@ -55,10 +51,7 @@ const SongsItem: FC<TSongsItemProps> = memo(({ color, withAdditionalInfo = false
           }}
         >
           <Box fontSize="1rem">
-            <strong>Costa Mee - Around This World</strong>
-          </Box>
-          <Box fontSize="0.875rem">
-            Artist: <strong>Rezilienza</strong> | Album: <strong>My Album</strong>
+            <strong>Album name</strong>
           </Box>
         </Box>
       </Box>
@@ -73,10 +66,10 @@ const SongsItem: FC<TSongsItemProps> = memo(({ color, withAdditionalInfo = false
         >
           <>
             <Box fontSize="0.875rem">
-              Year: <strong>2020</strong> | Views: <strong>1 232 423</strong>
+              Songs: <strong>35</strong> | Albums: <strong>34</strong>
             </Box>
             <Box fontSize="0.875rem">
-              Duration: <strong>2 minutes 45 seconds</strong>
+              Subscribers: <strong>23445</strong>
             </Box>
           </>
         </Box>
@@ -85,6 +78,6 @@ const SongsItem: FC<TSongsItemProps> = memo(({ color, withAdditionalInfo = false
   );
 });
 
-SongsItem.displayName = 'SongsItem';
+AlbumItem.displayName = 'AlbumItem';
 
-export default SongsItem;
+export default AlbumItem;

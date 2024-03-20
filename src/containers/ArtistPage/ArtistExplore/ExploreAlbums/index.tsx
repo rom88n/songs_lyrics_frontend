@@ -1,16 +1,16 @@
 import React, { memo } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import SongsItem from '@/components/extra/SongsItem';
 import { songsColors } from '@/config/theme/songs.colors';
 import { Link } from '@mui/material';
 import Chip from '@mui/material/Chip';
+import AlbumItem from '@/components/extra/AlbumItem';
 
 const ExploreSongs = memo(() => {
   return (
     <Box>
       <Typography component="h2" fontSize="1.5rem" fontWeight="400" sx={{ margin: '1.5rem 1rem 1rem' }}>
-        Album's songs' lyrics
+        Arist's albums lyrics
       </Typography>
       <Box
         sx={{
@@ -21,7 +21,7 @@ const ExploreSongs = memo(() => {
         }}
       >
         {new Array(5).fill(0).map((_, index) => (
-          <SongsItem withAdditionalInfo key={index} color={songsColors[index]}/>
+          <AlbumItem withAdditionalInfo key={index} color={songsColors[index]}/>
         ))}
         <Chip
           label="Explore more tracks from the album"

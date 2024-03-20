@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import SongsItem from '@/components/extra/SongsItem';
 import { songsColors } from '@/config/theme/songs.colors';
 import Box from '@mui/material/Box';

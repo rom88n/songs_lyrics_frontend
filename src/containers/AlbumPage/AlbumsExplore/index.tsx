@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import ExploreArtists from '@/containers/AlbumPage/AlbumsExplore/ExploreArtists';
 import ExploreSongs from '@/containers/AlbumPage/AlbumsExplore/ExploreSongs';
 import { Paper } from '@mui/material';
 
-const AlbumsExplore = () => {
+const AlbumsExplore = memo(() => {
   return (
     <Paper
       variant="outlined"
@@ -13,6 +13,8 @@ const AlbumsExplore = () => {
       <ExploreArtists/>
     </Paper>
   );
-};
+});
+
+AlbumsExplore.displayName = 'AlbumsExplore';
 
 export default AlbumsExplore;

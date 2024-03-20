@@ -8,13 +8,17 @@ const Link = forwardRef((props: NextLinkProps, ref: ForwardedRef<never>) => {
   const pathname = usePathname();
 
   const href = useMemo(() => {
-    if (String(props.href).includes('http')) {
-      return props.href;
+    if (props.href) {
+      if (String(props.href).includes('http')) {
+        return props.href;
+      }
+      return `/${lang}${String(props.href).length > 1 ? props.href : ''}`;
     }
-    return `/${lang}${props.href}`;
+
+    return '';
   }, [lang, props.href]);
 
-  if (pathname === props.href) return (<span {...props} ref={ref}/>);
+  if (!props.href || pathname === href) return (<span {...props} ref={ref}/>);
 
   return (
     <NextLink passHref ref={ref} {...props} href={href}/>

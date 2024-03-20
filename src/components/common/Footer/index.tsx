@@ -2,34 +2,43 @@ import React, { Fragment } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Divider, Link } from '@mui/material';
+import ROUTES from '@/config/routes';
+
+const config = [
+  {
+    label: 'About Site',
+    href: ROUTES.aboutUs
+  },
+  {
+    label: 'For Rights holders',
+    href: ROUTES.forRightsHolders
+  },
+  {
+    label: 'Copyright© 2024 My Site. All rights reserved',
+  },
+  {
+    label: 'Privacy Policy',
+    href: ROUTES.privacyPolicy
+  },
+  {
+    label: 'Terms & Conditions',
+    href: ROUTES.termsAndConditions
+  },
+];
 
 const Footer = () => {
-  const config = [
-    {
-      label: 'About Site',
-      href: '/'
-    },
-    {
-      label: 'For Rights holders',
-      href: '/'
-    },
-    {
-      label: 'Copyright© 2024 My Site. All rights reserved',
-    },
-    {
-      label: 'Privacy Policy',
-      href: '/'
-    },
-    {
-      label: 'Terms & Conditions',
-      href: '/'
-    },
-  ];
   return (
     <Box
       component="footer"
       sx={{
-        height: '1.5rem',
+        height: {
+          xs: '3rem',
+          md: '1.5rem',
+        },
+        flexWrap: {
+          xs: 'wrap',
+          md: 'no-wrap',
+        },
         backgroundColor: '#7487f2',
         display: 'flex',
         justifyContent: 'center',

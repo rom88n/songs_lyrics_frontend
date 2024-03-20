@@ -11,14 +11,17 @@ import AdditionalInfo from '../../components/extra/AdditionalInfo';
 import SongExplore from '@/containers/SongPage/SongExplore';
 import SocialSharing from '../../components/extra/SocialSharing';
 import Chip from '@mui/material/Chip';
+import Comments from '@/components/extra/Comments';
+import ROUTES from '@/config/routes';
+import Rating from '@/components/extra/Rating';
 
 function createData(
-  name: string,
-  calories: string | ReactNode,
-  fat: string,
-  carbs: string | ReactNode,
+  title1: string,
+  value1: string | ReactNode,
+  title2: string,
+  value2: string | ReactNode,
 ) {
-  return { name, calories, fat, carbs };
+  return { title1, value1, title2, value2 };
 }
 
 const SongPage = memo(() => {
@@ -26,6 +29,7 @@ const SongPage = memo(() => {
 
 
   const rows = [
+    createData('Tags', 'Tag1, Tag2, Tag3', 'Rating', <Rating type="song" id="1" defaultValue={2}/>),
     createData('Duration', '3 minutes 56 seconds', 'Song Publication Date', '2020'),
     createData('Album', <Chip label="My Album" variant="outlined" sx={{
       background: '#7487f2',
@@ -33,7 +37,7 @@ const SongPage = memo(() => {
       textDecoration: 'none',
       color: '#fff',
       cursor: 'pointer'
-    }} component={Link} href="/"/>, 'YT View Count', '1 500 342'),
+    }} component={Link} href={`${ROUTES.albums}/my-album`}/>, 'YT View Count', '1 500 342'),
     createData('Album duration', '243', 'Count of words', '243'),
     createData('Album Publication Date', '2020', 'Artist', <Chip label="Kanye West" variant="outlined" sx={{
       background: '#7487f2',
@@ -41,7 +45,7 @@ const SongPage = memo(() => {
       textDecoration: 'none',
       color: '#fff',
       cursor: 'pointer'
-    }} component={Link} href="/"/>),
+    }} component={Link} href={`${ROUTES.artists}/tyga`}/>),
     createData('About album', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique turpis facilisis purus sodales tempus. Curabitur gravida sed nibh sit amet varius. Proin id justo vitae nulla finibus consectetur et id lectus. Suspendisse potenti. Cras condimentum, ex vel auctor ultricies, erat erat tincidunt nisi, eu laoreet lectus leo vel turpis. Donec quis urna hendrerit, semper erat at, mollis tellus. Duis finibus enim sed risus condimentum, quis semper sem vulputate.', 'About Artist', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique turpis facilisis purus sodales tempus. Curabitur gravida sed nibh sit amet varius. Proin id justo vitae nulla finibus consectetur et id lectus. Suspendisse potenti. Cras condimentum, ex vel auctor ultricies, erat erat tincidunt nisi, eu laoreet lectus leo vel turpis. Donec quis urna hendrerit, semper erat at, mollis tellus. Duis finibus enim sed risus condimentum, quis semper sem vulputate.'),
   ];
 
@@ -54,8 +58,18 @@ const SongPage = memo(() => {
         }}
         component="section"
       >
-        <Grid container spacing={2}>
-          <Grid item xs={5}>
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            flexDirection: {
+              xs: 'column',
+              md: 'row',
+            },
+
+          }}
+        >
+          <Grid item xs={12} md={5}>
             <Image
               src="https://media.pitchfork.com/photos/5b1160a8d8c21c49d0ae4eef/1:1/w_800,h_800,c_limit/Kanye%20Ye.png"
               width={0}
@@ -65,7 +79,7 @@ const SongPage = memo(() => {
               alt=""
             />
           </Grid>
-          <Grid item xs={7}>
+          <Grid item xs={12} md={7}>
             <Box
               sx={{
                 display: 'flex',
@@ -102,11 +116,11 @@ const SongPage = memo(() => {
               },
               {
                 label: 'Tyga',
-                href: '/artists/tyga'
+                href: `${ROUTES.artists}/tyga`
               },
               {
                 label: 'Taste (feat. Offset)',
-                href: '/songs/taste'
+                href: `${ROUTES.songs}/taste`
               },
             ]}
           />
@@ -116,6 +130,16 @@ const SongPage = memo(() => {
         component="section"
         sx={{ m: '4rem 0' }}
       >
+        <Typography
+          variant="h2"
+          sx={{
+            fontSize: '1.5rem',
+            textAlign: 'center',
+            mb: '1rem'
+          }}
+        >
+          Additional information about Songs
+        </Typography>
         <AdditionalInfo rows={rows}/>
       </Box>
       <Box
@@ -128,15 +152,28 @@ const SongPage = memo(() => {
         component="section"
         sx={{ mb: '2rem', width: '100%', display: 'flex' }}
       >
-        <iframe
-          allowFullScreen
-          loading="lazy"
-          frameBorder="0"
-          src="https://www.youtube.com/embed/438cAHlVbRw"
-          style={{ margin: 'auto' }}
-          width="70%"
-          height="497"
-        />
+        <Box
+          sx={{
+            width: {
+              xs: '100%',
+              md: '70%',
+            },
+            height: {
+              xs: '22rem',
+              md: '30rem',
+            },
+            margin: 'auto',
+          }}
+        >
+          <iframe
+            allowFullScreen
+            loading="lazy"
+            frameBorder="0"
+            src="https://www.youtube.com/embed/438cAHlVbRw"
+            width="100%"
+            height="100%"
+          />
+        </Box>
       </Box>
       <Box
         component="section"
@@ -149,7 +186,7 @@ const SongPage = memo(() => {
         component="section"
         sx={{ mb: '2rem' }}
       >
-        comments
+        <Comments/>
       </Box>
     </Box>
   );
@@ -167,7 +204,6 @@ const useStyles = tss.create({
   image: {
     width: '100%',
     objectFit: 'cover',
-    // maxHeight: '20rem',
     height: '15rem',
     verticalAlign: 'middle',
     borderRadius: '8px',

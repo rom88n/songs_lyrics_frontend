@@ -7,8 +7,9 @@ import Typography from '@mui/material/Typography';
 import { tss } from 'tss-react';
 import BreadCrumbs from '../../components/extra/BreadCrumbs';
 import AdditionalInfo from '@/components/extra/AdditionalInfo';
-import AlbumsExplore from '@/containers/AlbumPage/AlbumsExplore';
+import ArtistExplore from '@/containers/ArtistPage/ArtistExplore';
 import SocialSharing from '../../components/extra/SocialSharing';
+import ROUTES from '@/config/routes';
 import Comments from '@/components/extra/Comments';
 
 function createData(
@@ -20,13 +21,13 @@ function createData(
   return { title1, value1, title2, value2 };
 }
 
-const AlbumPage = memo(() => {
+const ArtistPage = memo(() => {
   const { classes } = useStyles();
 
   const rows = [
-    createData('Album title', 'Tyga', 'Album Publication Date', '2020'),
-    createData('Album Publication Date', '2020', 'Album YT view count', '2 442 252'),
-    createData('Album duration', '243', 'Songs at Album', '5'),
+    createData('Artist name', 'Tyga', 'Artist Subscribers', '622532'),
+    createData('Artist Songs', '34', 'Artist albums', '12'),
+    createData('Artist Bio', '243', 'Songs at Album', '5'),
   ];
 
   return (
@@ -59,14 +60,7 @@ const AlbumPage = memo(() => {
               }}
             >
               <Typography variant="h1" fontSize="2rem" fontWeight={400} mt="1.5rem">
-                Album Title Lyrics
-              </Typography>
-              <Typography
-                sx={{
-                  textAlign: 'center'
-                }}
-              >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique turpis facilisis purus sodales tempus. Curabitur gravida sed nibh sit amet varius. Proin id justo vitae nulla finibus consectetur et id lectus. Suspendisse potenti. Cras condimentum, ex vel auctor ultricies, erat erat tincidunt nisi, eu laoreet lectus leo vel turpis. Donec quis urna hendrerit, semper erat at, mollis tellus. Duis finibus enim sed risus condimentum, quis semper sem vulputate.
+                Artist Name Lyrics
               </Typography>
             </Box>
           </Grid>
@@ -80,16 +74,11 @@ const AlbumPage = memo(() => {
           <BreadCrumbs
             paths={[
               {
-                label: 'Artists',
-                href: '/artists'
-              },
-              {
-                label: 'Albums',
-                href: '/artist/1/Albums'
+                label: 'Song Lyrics',
+                href: ROUTES.songs
               },
               {
                 label: 'Taste (feat. Offset)',
-                href: '/songs/taste'
               },
             ]}
           />
@@ -107,7 +96,7 @@ const AlbumPage = memo(() => {
             mb: '1rem'
           }}
         >
-          Additional information about Album
+          Additional information about Artist
         </Typography>
         <AdditionalInfo rows={rows}/>
       </Box>
@@ -116,7 +105,7 @@ const AlbumPage = memo(() => {
         component="section"
         sx={{ m: '4rem 0' }}
       >
-        <AlbumsExplore/>
+        <ArtistExplore/>
       </Box>
 
       <Box
@@ -136,7 +125,7 @@ const AlbumPage = memo(() => {
   );
 });
 
-AlbumPage.displayName = 'AlbumPage';
+ArtistPage.displayName = 'ArtistPage';
 
 const useStyles = tss.create({
   image: {
@@ -153,4 +142,4 @@ const useStyles = tss.create({
   }
 });
 
-export default AlbumPage;
+export default ArtistPage;

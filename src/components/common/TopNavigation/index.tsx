@@ -11,6 +11,7 @@ import Image from 'next/image';
 import HideOnScroll from '@/components/common/TopNavigation/HideOnScroll';
 import { menuItems } from '@/components/common/TopNavigation/topNavigation.helpers';
 import { Button, Divider, Link } from '@mui/material';
+import MobileDrawer from '@/components/common/MobileDrawer/MobileDrawer';
 
 
 const TopNavigation = memo(() => {
@@ -22,7 +23,13 @@ const TopNavigation = memo(() => {
       <HideOnScroll>
         <AppBar className={classes.header}>
           <Toolbar disableGutters>
-            <Container maxWidth="lg" className={classes.container}>
+            <Container
+              maxWidth="lg"
+              className={classes.container}
+              sx={{
+                padding: { xs: '1.5rem .5rem', sm: '1.5rem 0' }
+              }}
+            >
               <Typography component="div">
                 <Link href="/">
                   <Image
@@ -34,11 +41,15 @@ const TopNavigation = memo(() => {
                   />
                 </Link>
               </Typography>
+              <MobileDrawer/>
               <Typography
                 component="div"
                 sx={{
                   gap: '1rem',
-                  display: 'flex',
+                  display: {
+                    xs: 'none',
+                    sm: 'flex'
+                  },
                   alignItems: 'center',
                 }}
               >
@@ -86,7 +97,6 @@ const useStyles = tss.create({
     color: 'inherit',
   },
   container: {
-    padding: '1.5rem 0',
     display: 'flex',
     justifyContent: 'space-between',
   },

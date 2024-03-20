@@ -10,7 +10,7 @@ const ExploreSongs = memo(() => {
   return (
     <Box>
       <Typography component="h2" fontSize="1.5rem" fontWeight="400" sx={{ margin: '1.5rem 1rem 1rem' }}>
-        Album's songs' lyrics
+        Arist's songs lyrics
       </Typography>
       <Box
         sx={{

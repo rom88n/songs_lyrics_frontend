@@ -1,20 +1,11 @@
-import Box from '@mui/material/Box';
-import * as React from 'react';
-import Typography from '@mui/material/Typography';
+import React from 'react';
+import ArtistsList from '@/containers/ArtistsList';
 
-export default function Artists() {
+const Artists = () => {
   return (
-    <Box>
-      <Typography
-        variant="h1"
-        sx={{
-          fontSize: '3rem',
-          mb: '1rem',
-        }}
-      >
-        List of Artists
-      </Typography>
-      1
-    </Box>
+    <ArtistsList/>
   );
-}
+};
+
+export default Artists;
+

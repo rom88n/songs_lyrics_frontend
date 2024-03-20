@@ -4,10 +4,6 @@ import LangPicker from '@/components/extra/LangPicker';
 
 export const menuItems = [
   {
-    label: 'Home',
-    href: '/'
-  },
-  {
     label: 'Songs',
     href: ROUTES.songs,
   },
@@ -21,7 +17,7 @@ export const menuItems = [
   },
   {
     label: 'About Us',
-    href: '/about-us'
+    href: ROUTES.aboutUs
   },
   {
     label: 'Search',
@@ -31,4 +27,4 @@ export const menuItems = [
     label: 'Lang Picker',
     component: LangPicker
   },
-]
+];

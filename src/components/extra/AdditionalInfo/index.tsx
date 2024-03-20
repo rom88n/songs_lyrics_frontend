@@ -7,7 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/system';
 
 type TAdditionalInfoProps = {
-  rows: { name: string; calories: ReactNode; fat: string; carbs: ReactNode; }[]
+  rows: { title1: string; value1: ReactNode; title2: string; value2: ReactNode; }[]
 }
 
 const TableCell = styled(MuiTableCell)({
@@ -21,9 +21,9 @@ const AdditionalInfo: FC<TAdditionalInfoProps> = memo(({ rows }) => {
     <TableContainer>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row, index) => (
             <TableRow
-              key={row.name}
+              key={index}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell
@@ -32,24 +32,24 @@ const AdditionalInfo: FC<TAdditionalInfoProps> = memo(({ rows }) => {
                 width="25%"
                 sx={{ verticalAlign: 'baseline' }}
               >
-                <b>{row.name}:</b>
+                <b>{row.title1}:</b>
               </TableCell>
-              <TableCell align="left" width="25%">{row.calories}</TableCell>
+              <TableCell align="left" width="25%">{row.value1}</TableCell>
               <TableCell
                 align="left"
                 width="25%"
                 sx={{ verticalAlign: 'baseline' }}
               >
-                <b>{row.fat}:</b>
+                <b>{row.title2}:</b>
               </TableCell>
               <TableCell
                 align="right"
                 width="25%"
                 sx={{
-                  ...row.fat?.includes?.('About') && { textAlign: 'left' }
+                  ...row.title2?.includes?.('About') && { textAlign: 'left' }
                 }}
               >
-                {row.carbs}
+                {row.value2}
               </TableCell>
             </TableRow>
           ))}

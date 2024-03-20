@@ -1,10 +1,9 @@
 import React from 'react';
+import AlbumsList from '@/containers/AlbumsList';
 
 const Albums = () => {
   return (
-    <div>
-      123
-    </div>
+    <AlbumsList/>
   );
 };
 

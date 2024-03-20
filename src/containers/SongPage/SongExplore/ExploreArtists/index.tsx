@@ -1,7 +1,7 @@
-import React, { memo, useMemo } from 'react';
-import SongsItem from '@/components/extra/SongsItem';
-import { artistsColors, songsColors } from '@/config/theme/songs.colors';
+import React, { memo } from 'react';
+import { artistsColors } from '@/config/theme/songs.colors';
 import Box from '@mui/material/Box';
+import ArtistItem from '@/components/extra/ArtistItem';
 
 const ExploreArtists = memo(() => {
   return (
@@ -14,7 +14,7 @@ const ExploreArtists = memo(() => {
       }}
     >
       {new Array(3).fill(0).map((_, index) => (
-        <SongsItem key={index} color={artistsColors[index]}/>
+        <ArtistItem key={index} color={artistsColors[index]}/>
       ))}
     </Box>
   );

@@ -33,8 +33,26 @@ const SongExplore = memo(() => {
 
   return (
     <Grid container component={Paper} variant="outlined" borderRadius="1.5rem">
-      <Grid item xs={12} md={7} sx={{ textAlign: 'center', p: '2rem 0' }}>
-        <Typography component="h2" variant="h4" sx={{ pb: '1rem' }}>Lyrics</Typography>
+      <Grid
+        item
+        xs={12}
+        md={7}
+        sx={{
+          textAlign: 'center',
+          p: '2rem 0',
+          fontSize: {
+            xs: '1rem',
+            md: '1.2rem',
+          }
+        }}
+      >
+        <Typography
+          component="h2"
+          variant="h4"
+          sx={{ pb: '1rem' }}
+        >
+          Lyrics
+        </Typography>
 
         Man I can understand how it might be<br/>
         Kinda hard to love a girl like me<br/>
