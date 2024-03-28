@@ -1,5 +1,5 @@
 'use client';
-import React, { memo, ReactNode } from 'react';
+import React, { memo } from 'react';
 import Box from '@mui/material/Box';
 import { Grid, Paper } from '@mui/material';
 import Image from 'next/image';
@@ -11,24 +11,22 @@ import ArtistExplore from '@/containers/ArtistPage/ArtistExplore';
 import SocialSharing from '../../components/extra/SocialSharing';
 import ROUTES from '@/config/routes';
 import Comments from '@/components/extra/Comments';
+import { useParams } from 'next/navigation';
+import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
+import { TArtist } from '@/config/types';
+import QUERIES from '@/schema/queries';
 
-function createData(
-  title1: string,
-  value1: string | ReactNode,
-  title2: string,
-  value2: string | ReactNode,
-) {
-  return { title1, value1, title2, value2 };
-}
 
 const ArtistPage = memo(() => {
   const { classes } = useStyles();
+  const { artist_slug: slug } = useParams();
+  const { data } = useSuspenseQuery<{
+    artist: TArtist,
+  }>(QUERIES.GET_ARTIST_QUERY, {
+    variables: { slug },
+  });
 
-  const rows = [
-    createData('Artist name', 'Tyga', 'Artist Subscribers', '622532'),
-    createData('Artist Songs', '34', 'Artist albums', '12'),
-    createData('Artist Bio', '243', 'Songs at Album', '5'),
-  ];
+  const { artist } = data;
 
   return (
     <>
@@ -41,7 +39,7 @@ const ArtistPage = memo(() => {
         <Grid container spacing={2}>
           <Grid item xs={5}>
             <Image
-              src="https://media.pitchfork.com/photos/5b1160a8d8c21c49d0ae4eef/1:1/w_800,h_800,c_limit/Kanye%20Ye.png"
+              src={artist.picture}
               width={0}
               height={0}
               sizes="100vw"
@@ -59,8 +57,15 @@ const ArtistPage = memo(() => {
                 height: '100%',
               }}
             >
-              <Typography variant="h1" fontSize="2rem" fontWeight={400} mt="1.5rem">
-                Artist Name Lyrics
+              <Typography variant="h1" fontSize="2rem" fontWeight={400} mt="1.5rem" mb="1.5rem">
+                Artist {artist.name} Lyrics
+              </Typography>
+              <Typography
+                sx={{
+                  textAlign: 'center'
+                }}
+              >
+                {artist.bio || <span style={{ display: 'block', height: '5rem' }}>No Bio</span>}
               </Typography>
             </Box>
           </Grid>
@@ -98,14 +103,17 @@ const ArtistPage = memo(() => {
         >
           Additional information about Artist
         </Typography>
-        <AdditionalInfo rows={rows}/>
+        <AdditionalInfo type="artist" data={data.artist}/>
       </Box>
 
       <Box
         component="section"
         sx={{ m: '4rem 0' }}
       >
-        <ArtistExplore/>
+        <ArtistExplore
+          albums={artist.albums}
+          songs={artist.songs}
+        />
       </Box>
 
       <Box
@@ -119,7 +127,11 @@ const ArtistPage = memo(() => {
         component="section"
         sx={{ mb: '2rem' }}
       >
-        <Comments/>
+        <Comments
+          type="artist"
+          slug={artist.slug}
+          initialComments={artist.comments}
+        />
       </Box>
     </>
   );

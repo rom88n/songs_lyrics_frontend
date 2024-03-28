@@ -1,16 +1,22 @@
-import React, { memo } from 'react';
+import React, { FC, memo } from 'react';
 import ExploreArtists from '@/containers/AlbumPage/AlbumsExplore/ExploreArtists';
 import ExploreSongs from '@/containers/AlbumPage/AlbumsExplore/ExploreSongs';
 import { Paper } from '@mui/material';
+import { TArtist, TSong } from '@/config/types';
 
-const AlbumsExplore = memo(() => {
+type TAlbumsExploreProps = {
+  songs: TSong[];
+  artists: TArtist[];
+}
+
+const AlbumsExplore: FC<TAlbumsExploreProps> = memo(({ songs, artists }) => {
   return (
     <Paper
       variant="outlined"
       sx={{ p: '.5rem', borderRadius: '1.5rem' }}
     >
-      <ExploreSongs/>
-      <ExploreArtists/>
+      <ExploreSongs songs={songs}/>
+      <ExploreArtists artists={artists}/>
     </Paper>
   );
 });

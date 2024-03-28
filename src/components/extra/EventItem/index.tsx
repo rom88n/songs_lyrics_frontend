@@ -2,17 +2,22 @@ import React, { FC, memo } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Link, Paper } from '@mui/material';
+import { TEvent } from '@/config/types';
+import EventIcon from '@mui/icons-material/Event';
 
 type TEventItemProps = {
   color: string,
+  event: TEvent
 }
 
-const EventItem: FC<TEventItemProps> = memo(({ color }) => {
+const EventItem: FC<TEventItemProps> = memo(({ color, event }) => {
   return (
     <Paper
       variant="outlined"
       component={Link}
-      href="/songs/1"
+      target="_blank"
+      rel="nofollow"
+      href={event.url}
       sx={{
         borderRadius: '.5rem',
         padding: '.5rem',
@@ -36,8 +41,11 @@ const EventItem: FC<TEventItemProps> = memo(({ color }) => {
           color: '#fff',
         }}
       >
-        <b>13</b>
-        <span>Mar</span>
+        <EventIcon
+          sx={{
+            fontSize: '1.7rem'
+          }}
+        />
       </Box>
       <Box
         sx={{
@@ -56,10 +64,10 @@ const EventItem: FC<TEventItemProps> = memo(({ color }) => {
             }
           }}
         >
-          <b>Ashanti with Monica</b>
+          <b>{event.name}</b>
         </Typography>
         <Typography component="div">
-          <span>Sat, 6:30 – 8:30 PM</span>, <b>Chicago, IL, USA</b>
+          <span>{event.promoter}</span>
         </Typography>
       </Box>
     </Paper>

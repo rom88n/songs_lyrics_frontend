@@ -10,6 +10,7 @@ import Footer from '@/components/common/Footer';
 import LangProvider from '@/components/layouts/LangProvider';
 import { locales, TLocale } from '@/middleware';
 import { getDictionary } from '@/app/[lang]/dictionaries';
+import { ApolloClient } from '@/config/apollo';
 
 type TRootLayout = {
   children: ReactNode;
@@ -17,7 +18,9 @@ type TRootLayout = {
 }
 
 export async function generateStaticParams() {
-  return locales.map(lang => { lang })
+  return locales.map(lang => {
+    lang;
+  });
 }
 
 export const metadata: Metadata = {
@@ -45,23 +48,25 @@ export default async function RootLayout({
         minHeight: '100vh',
       }}
     >
-      <LangProvider lang={lang} labels={labels}>
-        <ThemeRegistry>
-          <TopNavigation/>
-          <Container
-            component="main"
-            maxWidth="lg"
-            sx={{
-              marginTop: '8rem',
-              marginBottom: '2rem',
-              flex: 1,
-            }}
-          >
-            {children}
-          </Container>
-          <Footer/>
-        </ThemeRegistry>
-      </LangProvider>
+      <ApolloClient>
+        <LangProvider lang={lang} labels={labels}>
+          <ThemeRegistry>
+            <TopNavigation/>
+            <Container
+              component="main"
+              maxWidth="lg"
+              sx={{
+                marginTop: '8rem',
+                marginBottom: '2rem',
+                flex: 1,
+              }}
+            >
+              {children}
+            </Container>
+            <Footer/>
+          </ThemeRegistry>
+        </LangProvider>
+      </ApolloClient>
     </Box>
     </html>
   );

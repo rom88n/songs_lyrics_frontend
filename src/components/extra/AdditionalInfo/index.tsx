@@ -1,14 +1,13 @@
-import React, { FC, memo, ReactNode } from 'react';
+import React, { FC, memo, useMemo } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import MuiTableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/system';
+import { TAdditionalInfoProps } from '@/components/extra/AdditionalInfo/index.types';
+import { ADDITIONAL_INFO_TABLE_LABELS, getRows } from '@/components/extra/AdditionalInfo/helpers/common.helpers';
 
-type TAdditionalInfoProps = {
-  rows: { title1: string; value1: ReactNode; title2: string; value2: ReactNode; }[]
-}
 
 const TableCell = styled(MuiTableCell)({
   root: {
@@ -16,41 +15,47 @@ const TableCell = styled(MuiTableCell)({
   }
 });
 
-const AdditionalInfo: FC<TAdditionalInfoProps> = memo(({ rows }) => {
+const AdditionalInfo: FC<TAdditionalInfoProps> = memo(({ data, type }) => {
+  const rows = useMemo(() => getRows(type, data), [type, data]);
+
   return (
     <TableContainer>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 650 }}>
         <TableBody>
           {rows.map((row, index) => (
             <TableRow
-              key={index}
+              key={`row-${index}`}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell
-                component="th"
-                scope="row"
-                width="25%"
-                sx={{ verticalAlign: 'baseline' }}
-              >
-                <b>{row.title1}:</b>
-              </TableCell>
-              <TableCell align="left" width="25%">{row.value1}</TableCell>
-              <TableCell
-                align="left"
-                width="25%"
-                sx={{ verticalAlign: 'baseline' }}
-              >
-                <b>{row.title2}:</b>
-              </TableCell>
-              <TableCell
-                align="right"
-                width="25%"
-                sx={{
-                  ...row.title2?.includes?.('About') && { textAlign: 'left' }
-                }}
-              >
-                {row.value2}
-              </TableCell>
+              {Object.keys(row).map((key, _, keys) => {
+                const title = ADDITIONAL_INFO_TABLE_LABELS[key as keyof typeof ADDITIONAL_INFO_TABLE_LABELS];
+                const value = row[key as never];
+
+                return (
+                  <React.Fragment key={key}>
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      width={keys.length === 1 ? '50%' : '25%'}
+                      sx={{
+                        ...value !== '-' && title?.includes?.('About') && { verticalAlign: 'baseline' }
+                      }}
+                    >
+                      <b>{title}:</b>
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      width={keys.length === 1 ? '50%' : '25%'}
+                      sx={{
+                        ...title?.includes?.('About') && { verticalAlign: 'baseline' },
+                        ...value !== '-' && title?.includes?.('About') && { textAlign: 'left' }
+                      }}
+                    >
+                      {value}
+                    </TableCell>
+                  </React.Fragment>
+                );
+              })}
             </TableRow>
           ))}
         </TableBody>

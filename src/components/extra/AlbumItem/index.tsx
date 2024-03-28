@@ -1,19 +1,23 @@
 import React, { FC, memo } from 'react';
 import { Box, Link, Paper } from '@mui/material';
-import DvrIcon from '@mui/icons-material/Dvr';
+import AlbumIcon from '@mui/icons-material/Album';
+import { TAlbum } from '@/config/types';
+import moment from 'moment';
+import { extractYear } from '@/utils/time';
+import ROUTES from '@/config/routes';
 
 type TSongsItemProps = {
   color: string
   withAdditionalInfo?: boolean
+  album: TAlbum;
 }
 
-const AlbumItem: FC<TSongsItemProps> = memo(({ color, withAdditionalInfo = false }) => {
-
+const AlbumItem: FC<TSongsItemProps> = memo(({ album, color, withAdditionalInfo = false }) => {
   return (
     <Paper
       variant="outlined"
       component={Link}
-      href="/albums/1"
+      href={`${ROUTES.albums}/${album.slug}`}
       sx={{
         borderRadius: '.5rem',
         padding: '.5rem',
@@ -41,7 +45,7 @@ const AlbumItem: FC<TSongsItemProps> = memo(({ color, withAdditionalInfo = false
             color: '#fff'
           }}
         >
-          <DvrIcon sx={{ fontSize: '1.5rem' }} />
+          <AlbumIcon sx={{ fontSize: '1.5rem' }}/>
         </Box>
 
         <Box
@@ -51,7 +55,7 @@ const AlbumItem: FC<TSongsItemProps> = memo(({ color, withAdditionalInfo = false
           }}
         >
           <Box fontSize="1rem">
-            <strong>Album name</strong>
+            <strong>{album.name}</strong>
           </Box>
         </Box>
       </Box>
@@ -66,10 +70,10 @@ const AlbumItem: FC<TSongsItemProps> = memo(({ color, withAdditionalInfo = false
         >
           <>
             <Box fontSize="0.875rem">
-              Songs: <strong>35</strong> | Albums: <strong>34</strong>
+              Songs: <strong>{album.songs.length}</strong> | Artists: <strong>{album.artists.length}</strong>
             </Box>
             <Box fontSize="0.875rem">
-              Subscribers: <strong>23445</strong>
+              Year: <strong>{moment(extractYear(album.year)).format('YYYY')}</strong>
             </Box>
           </>
         </Box>

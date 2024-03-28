@@ -1,5 +1,5 @@
 'use client';
-import React, { memo, ReactNode } from 'react';
+import React, { memo } from 'react';
 import Box from '@mui/material/Box';
 import { Grid, Paper } from '@mui/material';
 import Image from 'next/image';
@@ -10,24 +10,22 @@ import AdditionalInfo from '@/components/extra/AdditionalInfo';
 import AlbumsExplore from '@/containers/AlbumPage/AlbumsExplore';
 import SocialSharing from '../../components/extra/SocialSharing';
 import Comments from '@/components/extra/Comments';
-
-function createData(
-  title1: string,
-  value1: string | ReactNode,
-  title2: string,
-  value2: string | ReactNode,
-) {
-  return { title1, value1, title2, value2 };
-}
+import { useParams } from 'next/navigation';
+import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
+import { TAlbum } from '@/config/types';
+import QUERIES from '@/schema/queries';
+import ROUTES from '@/config/routes';
 
 const AlbumPage = memo(() => {
   const { classes } = useStyles();
+  const { album_slug: slug } = useParams();
+  const { data } = useSuspenseQuery<{
+    album: TAlbum,
+  }>(QUERIES.GET_ALBUM_QUERY, {
+    variables: { slug },
+  });
 
-  const rows = [
-    createData('Album title', 'Tyga', 'Album Publication Date', '2020'),
-    createData('Album Publication Date', '2020', 'Album YT view count', '2 442 252'),
-    createData('Album duration', '243', 'Songs at Album', '5'),
-  ];
+  const { album } = data;
 
   return (
     <>
@@ -40,7 +38,7 @@ const AlbumPage = memo(() => {
         <Grid container spacing={2}>
           <Grid item xs={5}>
             <Image
-              src="https://media.pitchfork.com/photos/5b1160a8d8c21c49d0ae4eef/1:1/w_800,h_800,c_limit/Kanye%20Ye.png"
+              src={album.picture}
               width={0}
               height={0}
               sizes="100vw"
@@ -59,14 +57,14 @@ const AlbumPage = memo(() => {
               }}
             >
               <Typography variant="h1" fontSize="2rem" fontWeight={400} mt="1.5rem">
-                Album Title Lyrics
+                Album {album.name} Lyrics
               </Typography>
               <Typography
                 sx={{
                   textAlign: 'center'
                 }}
               >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique turpis facilisis purus sodales tempus. Curabitur gravida sed nibh sit amet varius. Proin id justo vitae nulla finibus consectetur et id lectus. Suspendisse potenti. Cras condimentum, ex vel auctor ultricies, erat erat tincidunt nisi, eu laoreet lectus leo vel turpis. Donec quis urna hendrerit, semper erat at, mollis tellus. Duis finibus enim sed risus condimentum, quis semper sem vulputate.
+                {album.description || <span style={{ display: 'block', height: '5rem' }}>No description</span>}
               </Typography>
             </Box>
           </Grid>
@@ -80,16 +78,12 @@ const AlbumPage = memo(() => {
           <BreadCrumbs
             paths={[
               {
-                label: 'Artists',
-                href: '/artists'
-              },
-              {
                 label: 'Albums',
-                href: '/artist/1/Albums'
+                href: ROUTES.albums
               },
               {
-                label: 'Taste (feat. Offset)',
-                href: '/songs/taste'
+                label: album.name,
+                href: `${ROUTES.albums}/${album.slug}`
               },
             ]}
           />
@@ -107,16 +101,19 @@ const AlbumPage = memo(() => {
             mb: '1rem'
           }}
         >
-          Additional information about Album
+          Additional information about Album Lyrics
         </Typography>
-        <AdditionalInfo rows={rows}/>
+        <AdditionalInfo type="album" data={album}/>
       </Box>
 
       <Box
         component="section"
         sx={{ m: '4rem 0' }}
       >
-        <AlbumsExplore/>
+        <AlbumsExplore
+          songs={album.songs}
+          artists={album.artists}
+        />
       </Box>
 
       <Box
@@ -130,7 +127,11 @@ const AlbumPage = memo(() => {
         component="section"
         sx={{ mb: '2rem' }}
       >
-        <Comments/>
+        <Comments
+          type="album"
+          slug={album.slug}
+          initialComments={album.comments}
+        />
       </Box>
     </>
   );

@@ -1,19 +1,22 @@
 import React, { FC, memo } from 'react';
 import { Box, Link, Paper } from '@mui/material';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import { TArtist } from '@/config/types';
+import ROUTES from '@/config/routes';
 
 type TSongsItemProps = {
   color: string
   withAdditionalInfo?: boolean
+  artist: TArtist
 }
 
-const ArtistItem: FC<TSongsItemProps> = memo(({ color, withAdditionalInfo = false }) => {
+const ArtistItem: FC<TSongsItemProps> = memo(({ artist, color, withAdditionalInfo = false }) => {
 
   return (
     <Paper
       variant="outlined"
       component={Link}
-      href="/artists/1"
+      href={`${ROUTES.artists}/${artist.slug}`}
       sx={{
         borderRadius: '.5rem',
         padding: '.5rem',
@@ -55,7 +58,7 @@ const ArtistItem: FC<TSongsItemProps> = memo(({ color, withAdditionalInfo = fals
           }}
         >
           <Box fontSize="1rem">
-            <strong>Tyga</strong>
+            <strong>{artist.name}</strong>
           </Box>
         </Box>
       </Box>
@@ -70,10 +73,10 @@ const ArtistItem: FC<TSongsItemProps> = memo(({ color, withAdditionalInfo = fals
         >
           <>
             <Box fontSize="0.875rem">
-              Songs: <strong>35</strong> | Albums: <strong>34</strong>
+              Songs: <strong>{artist.songs.length}</strong> | Albums: <strong>{artist.albums.length}</strong>
             </Box>
             <Box fontSize="0.875rem">
-              Subscribers: <strong>23445</strong>
+              Subscribers: <strong>{artist.subscribers}</strong>
             </Box>
           </>
         </Box>

@@ -31,7 +31,7 @@ const TopNavigation = memo(() => {
               }}
             >
               <Typography component="div">
-                <Link href="/">
+                <Link href="/" prefetch>
                   <Image
                     src="https://sinju.gthememarket.com/content/images/2022/06/Sinju..svg"
                     width={96}
@@ -67,7 +67,8 @@ const TopNavigation = memo(() => {
                       key={menuItem.label}
                       {...menuItem.href && {
                         component: Link,
-                        href: menuItem.href
+                        href: menuItem.href,
+                        prefetch: true,
                       }}
                       sx={{
                         color: 'inherit',

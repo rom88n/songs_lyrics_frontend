@@ -1,8 +1,10 @@
-import React, { memo } from 'react';
+import React, { FC, memo } from 'react';
 import Box from '@mui/material/Box';
 import { Typography } from '@mui/material';
+import { TComment } from '@/config/types';
+import moment from 'moment';
 
-const CommentItem = memo(() => {
+const CommentItem: FC<{ comment: TComment }> = memo(({ comment }) => {
   return (
     <Box
       sx={{
@@ -26,7 +28,7 @@ const CommentItem = memo(() => {
             alignItems: 'center',
           }}
         >
-          A
+          {comment.name[0]}
         </Box>
         <Box
           sx={{
@@ -38,12 +40,12 @@ const CommentItem = memo(() => {
           <Typography
             fontWeight="bold"
           >
-            Lian Rubicorn
+            {comment.name}
           </Typography>
           <Typography
             fontSize=".875rem"
           >
-            27 minutes ago
+            {moment(comment.createdAt).fromNow()}
           </Typography>
         </Box>
       </Box>
@@ -52,7 +54,7 @@ const CommentItem = memo(() => {
           mt: '1rem'
         }}
       >
-        Textarea Autosize behaves similarly to the native HTML. By default, an empty Textarea Autosize component renders as a single row, as shown in the following demo
+        {comment.text}
       </Typography>
     </Box>
   );

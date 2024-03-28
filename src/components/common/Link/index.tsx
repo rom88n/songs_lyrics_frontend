@@ -6,22 +6,23 @@ import { LangContext } from '@/components/layouts/LangProvider';
 const Link = forwardRef((props: NextLinkProps, ref: ForwardedRef<never>) => {
   const { lang } = useContext(LangContext);
   const pathname = usePathname();
+  const { href: hrefOriginal, prefetch, ...restProps } = props
 
   const href = useMemo(() => {
-    if (props.href) {
-      if (String(props.href).includes('http')) {
-        return props.href;
+    if (hrefOriginal) {
+      if (String(hrefOriginal).includes('http')) {
+        return hrefOriginal;
       }
-      return `/${lang}${String(props.href).length > 1 ? props.href : ''}`;
+      return `/${lang}${String(hrefOriginal).length > 1 ? hrefOriginal : ''}`;
     }
 
     return '';
-  }, [lang, props.href]);
+  }, [lang, hrefOriginal]);
 
-  if (!props.href || pathname === href) return (<span {...props} ref={ref}/>);
+  if (!props.href || pathname === href) return (<span {...restProps} ref={ref}/>);
 
   return (
-    <NextLink passHref ref={ref} {...props} href={href}/>
+    <NextLink passHref ref={ref} prefetch={prefetch} {...restProps} href={href}/>
   );
 });
 

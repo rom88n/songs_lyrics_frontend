@@ -1,7 +1,7 @@
 'use client';
-import React, { memo, ReactNode } from 'react';
+import React, { memo } from 'react';
 import { tss } from 'tss-react';
-import { Grid, Link, Paper } from '@mui/material';
+import { Grid, Paper } from '@mui/material';
 import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -10,44 +10,25 @@ import BreadCrumbs from '../../components/extra/BreadCrumbs';
 import AdditionalInfo from '../../components/extra/AdditionalInfo';
 import SongExplore from '@/containers/SongPage/SongExplore';
 import SocialSharing from '../../components/extra/SocialSharing';
-import Chip from '@mui/material/Chip';
 import Comments from '@/components/extra/Comments';
 import ROUTES from '@/config/routes';
-import Rating from '@/components/extra/Rating';
-
-function createData(
-  title1: string,
-  value1: string | ReactNode,
-  title2: string,
-  value2: string | ReactNode,
-) {
-  return { title1, value1, title2, value2 };
-}
+import { useSuspenseQuery } from '@apollo/experimental-nextjs-app-support/ssr';
+import { TSong } from '@/config/types';
+import QUERIES from '@/schema/queries';
+import { useParams } from 'next/navigation';
+import { API_URL } from '@/config/apollo';
 
 const SongPage = memo(() => {
   const { classes } = useStyles();
+  const { song_slug: slug } = useParams();
+  const { data } = useSuspenseQuery<{
+    song: TSong,
+    relatedSongs: TSong[]
+  }>(QUERIES.GET_SONG_QUERY, {
+    variables: { slug },
+  });
 
-
-  const rows = [
-    createData('Tags', 'Tag1, Tag2, Tag3', 'Rating', <Rating type="song" id="1" defaultValue={2}/>),
-    createData('Duration', '3 minutes 56 seconds', 'Song Publication Date', '2020'),
-    createData('Album', <Chip label="My Album" variant="outlined" sx={{
-      background: '#7487f2',
-      border: 'none',
-      textDecoration: 'none',
-      color: '#fff',
-      cursor: 'pointer'
-    }} component={Link} href={`${ROUTES.albums}/my-album`}/>, 'YT View Count', '1 500 342'),
-    createData('Album duration', '243', 'Count of words', '243'),
-    createData('Album Publication Date', '2020', 'Artist', <Chip label="Kanye West" variant="outlined" sx={{
-      background: '#7487f2',
-      border: 'none',
-      textDecoration: 'none',
-      color: '#fff',
-      cursor: 'pointer'
-    }} component={Link} href={`${ROUTES.artists}/tyga`}/>),
-    createData('About album', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique turpis facilisis purus sodales tempus. Curabitur gravida sed nibh sit amet varius. Proin id justo vitae nulla finibus consectetur et id lectus. Suspendisse potenti. Cras condimentum, ex vel auctor ultricies, erat erat tincidunt nisi, eu laoreet lectus leo vel turpis. Donec quis urna hendrerit, semper erat at, mollis tellus. Duis finibus enim sed risus condimentum, quis semper sem vulputate.', 'About Artist', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique turpis facilisis purus sodales tempus. Curabitur gravida sed nibh sit amet varius. Proin id justo vitae nulla finibus consectetur et id lectus. Suspendisse potenti. Cras condimentum, ex vel auctor ultricies, erat erat tincidunt nisi, eu laoreet lectus leo vel turpis. Donec quis urna hendrerit, semper erat at, mollis tellus. Duis finibus enim sed risus condimentum, quis semper sem vulputate.'),
-  ];
+  const { song, relatedSongs } = data;
 
   return (
     <Box component="article">
@@ -71,7 +52,7 @@ const SongPage = memo(() => {
         >
           <Grid item xs={12} md={5}>
             <Image
-              src="https://media.pitchfork.com/photos/5b1160a8d8c21c49d0ae4eef/1:1/w_800,h_800,c_limit/Kanye%20Ye.png"
+              src={`${API_URL}/songs/image/${song.slug}/`}
               width={0}
               height={0}
               sizes="100vw"
@@ -90,10 +71,10 @@ const SongPage = memo(() => {
               }}
             >
               <Typography variant="h1" fontSize="2rem" fontWeight={400} mt="1.5rem">
-                Lyrics Tyga - Taste (feat. Offset)
+                {song.title} Lyrics
               </Typography>
               <MusicPlayer
-                mediaId="6CHs4x2uqcQ"
+                mediaId={song.id}
                 duration={131}
                 sx={{
                   mt: '1rem'
@@ -112,15 +93,11 @@ const SongPage = memo(() => {
             paths={[
               {
                 label: 'Songs',
-                href: '/songs'
+                href: ROUTES.songs,
               },
+              // ...song.artists.map(artist => ({ label: artist.name, href:`${ROUTES.artists}/${artist.slug}` })),
               {
-                label: 'Tyga',
-                href: `${ROUTES.artists}/tyga`
-              },
-              {
-                label: 'Taste (feat. Offset)',
-                href: `${ROUTES.songs}/taste`
+                label: song.name,
               },
             ]}
           />
@@ -140,13 +117,16 @@ const SongPage = memo(() => {
         >
           Additional information about Songs
         </Typography>
-        <AdditionalInfo rows={rows}/>
+        <AdditionalInfo type="song" data={song}/>
       </Box>
       <Box
         component="section"
         sx={{ m: '4rem 0 2rem' }}
       >
-        <SongExplore/>
+        <SongExplore
+          song={song}
+          relatedSongs={relatedSongs}
+        />
       </Box>
       <Box
         component="section"
@@ -169,7 +149,7 @@ const SongPage = memo(() => {
             allowFullScreen
             loading="lazy"
             frameBorder="0"
-            src="https://www.youtube.com/embed/438cAHlVbRw"
+            src={`https://www.youtube.com/embed/${song.id}`}
             width="100%"
             height="100%"
           />
@@ -186,7 +166,11 @@ const SongPage = memo(() => {
         component="section"
         sx={{ mb: '2rem' }}
       >
-        <Comments/>
+        <Comments
+          type="song"
+          slug={song.slug}
+          initialComments={song.comments}
+        />
       </Box>
     </Box>
   );
